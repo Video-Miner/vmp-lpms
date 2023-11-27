@@ -8,9 +8,9 @@ import (
 	"os"
 	"time"
 
+	"github.com/Video-Miner/vmp-lpms/core"
+	"github.com/Video-Miner/vmp-lpms/stream"
 	"github.com/golang/glog"
-	"github.com/livepeer/lpms/core"
-	"github.com/livepeer/lpms/stream"
 )
 
 type exampleStream string

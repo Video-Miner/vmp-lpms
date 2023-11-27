@@ -16,9 +16,9 @@ import (
 
 	"time"
 
+	"github.com/Video-Miner/vmp-lpms/stream"
 	"github.com/golang/glog"
 	joy4rtmp "github.com/livepeer/joy4/format/rtmp"
-	"github.com/livepeer/lpms/stream"
 	"github.com/livepeer/m3u8"
 )
 
@@ -29,7 +29,7 @@ var ErrRTMP = errors.New("ErrRTMP")
 var ErrHLS = errors.New("ErrHLS")
 var PlaylistWaittime = 6 * time.Second
 
-//VidPlayer is the module that handles playing video. For now we only support RTMP and HLS play.
+// VidPlayer is the module that handles playing video. For now we only support RTMP and HLS play.
 type VidPlayer struct {
 	RtmpServer      *joy4rtmp.Server
 	rtmpPlayHandler func(url *url.URL) (stream.RTMPVideoStream, error)
@@ -39,7 +39,7 @@ type VidPlayer struct {
 
 func defaultRtmpPlayHandler(url *url.URL) (stream.RTMPVideoStream, error) { return nil, ErrRTMP }
 
-//NewVidPlayer creates a new video player
+// NewVidPlayer creates a new video player
 func NewVidPlayer(rtmpS *joy4rtmp.Server, vodPath string, mux *http.ServeMux) *VidPlayer {
 	if mux == nil {
 		mux = http.DefaultServeMux
@@ -51,8 +51,8 @@ func NewVidPlayer(rtmpS *joy4rtmp.Server, vodPath string, mux *http.ServeMux) *V
 	return player
 }
 
-//HandleRTMPPlay is the handler when there is a RTMP request for a video. The source should write
-//into the MuxCloser. The easiest way is through avutil.Copy.
+// HandleRTMPPlay is the handler when there is a RTMP request for a video. The source should write
+// into the MuxCloser. The easiest way is through avutil.Copy.
 func (s *VidPlayer) HandleRTMPPlay(getStream func(url *url.URL) (stream.RTMPVideoStream, error)) error {
 	s.rtmpPlayHandler = getStream
 	return nil
@@ -82,7 +82,7 @@ func (s *VidPlayer) rtmpServerHandlePlay() func(conn *joy4rtmp.Conn) {
 	}
 }
 
-//HandleHLSPlay is the handler when there is a HLS video request.  It supports both VOD and live streaming.
+// HandleHLSPlay is the handler when there is a HLS video request.  It supports both VOD and live streaming.
 func (s *VidPlayer) HandleHLSPlay(
 	getMasterPlaylist func(url *url.URL) (*m3u8.MasterPlaylist, error),
 	getMediaPlaylist func(url *url.URL) (*m3u8.MediaPlaylist, error),

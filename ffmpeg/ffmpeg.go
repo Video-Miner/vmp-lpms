@@ -16,9 +16,9 @@ import (
 	"time"
 	"unsafe"
 
+	pb "github.com/Video-Miner/vmp-lpms/ffmpeg/proto"
 	"github.com/golang/glog"
 	"github.com/golang/protobuf/proto"
-	pb "github.com/livepeer/lpms/ffmpeg/proto"
 )
 
 // #cgo pkg-config: libavformat libavfilter libavcodec libavutil libswscale

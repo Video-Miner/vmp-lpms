@@ -5,10 +5,10 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/Video-Miner/vmp-lpms/segmenter"
+	"github.com/Video-Miner/vmp-lpms/stream"
 	"github.com/golang/glog"
 	joy4rtmp "github.com/livepeer/joy4/format/rtmp"
-	"github.com/livepeer/lpms/segmenter"
-	"github.com/livepeer/lpms/stream"
 )
 
 var segOptions = segmenter.SegmenterOptions{SegLength: time.Second * 2}
@@ -22,10 +22,10 @@ type VidListener struct {
 	RtmpServer *joy4rtmp.Server
 }
 
-//HandleRTMPPublish takes 3 parameters - makeStreamID, gotStream, and endStream.
-//makeStreamID is called when the stream starts. It should return a streamID from the requestURL.
-//gotStream is called when the stream starts.  It gives you access to the stream.
-//endStream is called when the stream ends.  It gives you access to the stream.
+// HandleRTMPPublish takes 3 parameters - makeStreamID, gotStream, and endStream.
+// makeStreamID is called when the stream starts. It should return a streamID from the requestURL.
+// gotStream is called when the stream starts.  It gives you access to the stream.
+// endStream is called when the stream ends.  It gives you access to the stream.
 func (self *VidListener) HandleRTMPPublish(
 	makeStreamID func(url *url.URL) (strmID stream.AppData),
 	gotStream func(url *url.URL, rtmpStrm stream.RTMPVideoStream) error,

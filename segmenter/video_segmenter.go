@@ -13,10 +13,10 @@ import (
 
 	"path"
 
+	"github.com/Video-Miner/vmp-lpms/ffmpeg"
+	"github.com/Video-Miner/vmp-lpms/stream"
 	"github.com/golang/glog"
 	"github.com/livepeer/joy4/av"
-	"github.com/livepeer/lpms/ffmpeg"
-	"github.com/livepeer/lpms/stream"
 	"github.com/livepeer/m3u8"
 )
 
@@ -52,7 +52,7 @@ type VideoSegmenter interface {
 	RTMPToHLS(ctx context.Context, cleanup bool) error
 }
 
-//FFMpegVideoSegmenter segments a RTMP stream by invoking FFMpeg and monitoring the file system.
+// FFMpegVideoSegmenter segments a RTMP stream by invoking FFMpeg and monitoring the file system.
 type FFMpegVideoSegmenter struct {
 	WorkDir        string
 	LocalRtmpUrl   string
@@ -71,7 +71,7 @@ func NewFFMpegVideoSegmenter(workDir string, strmID string, localRtmpUrl string,
 	return &FFMpegVideoSegmenter{WorkDir: workDir, StrmID: strmID, LocalRtmpUrl: localRtmpUrl, SegLen: opt.SegLength, curSegment: opt.StartSeq}
 }
 
-//RTMPToHLS invokes FFMpeg to do the segmenting. This method blocks until the segmenter exits.
+// RTMPToHLS invokes FFMpeg to do the segmenting. This method blocks until the segmenter exits.
 func (s *FFMpegVideoSegmenter) RTMPToHLS(ctx context.Context, cleanup bool) error {
 	//Set up local workdir
 	if _, err := os.Stat(s.WorkDir); os.IsNotExist(err) {
@@ -91,7 +91,7 @@ func (s *FFMpegVideoSegmenter) RTMPToHLS(ctx context.Context, cleanup bool) erro
 	return ret
 }
 
-//PollSegment monitors the filesystem and returns a new segment as it becomes available
+// PollSegment monitors the filesystem and returns a new segment as it becomes available
 func (s *FFMpegVideoSegmenter) PollSegment(ctx context.Context) (*VideoSegment, error) {
 	var length time.Duration
 	curTsfn := s.WorkDir + "/" + s.StrmID + "_" + strconv.Itoa(s.curSegment) + ".ts"
@@ -131,7 +131,7 @@ func (s *FFMpegVideoSegmenter) PollSegment(ctx context.Context) (*VideoSegment, 
 	return &VideoSegment{Codec: av.H264, Format: stream.HLS, Length: length, Data: seg, Name: name, SeqNo: uint64(s.curSegment - 1)}, err
 }
 
-//PollPlaylist monitors the filesystem and returns a new playlist as it becomes available
+// PollPlaylist monitors the filesystem and returns a new playlist as it becomes available
 func (s *FFMpegVideoSegmenter) PollPlaylist(ctx context.Context) (*VideoPlaylist, error) {
 	plfn := fmt.Sprintf("%s/%s.m3u8", s.WorkDir, s.StrmID)
 	var lastPl []byte

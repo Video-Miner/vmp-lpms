@@ -1,6 +1,6 @@
-//The RTMP server.  This will put up a RTMP endpoint when starting up Swarm.
-//To integrate with LPMS means your code will become the source / destination of the media server.
-//This RTMP endpoint is mainly used for video upload.  The expected url is rtmp://localhost:port/livepeer/stream
+// The RTMP server.  This will put up a RTMP endpoint when starting up Swarm.
+// To integrate with LPMS means your code will become the source / destination of the media server.
+// This RTMP endpoint is mainly used for video upload.  The expected url is rtmp://localhost:port/livepeer/stream
 package core
 
 import (
@@ -10,12 +10,12 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Video-Miner/vmp-lpms/ffmpeg"
+	"github.com/Video-Miner/vmp-lpms/segmenter"
+	"github.com/Video-Miner/vmp-lpms/stream"
+	"github.com/Video-Miner/vmp-lpms/vidlistener"
+	"github.com/Video-Miner/vmp-lpms/vidplayer"
 	"github.com/golang/glog"
-	"github.com/livepeer/lpms/ffmpeg"
-	"github.com/livepeer/lpms/segmenter"
-	"github.com/livepeer/lpms/stream"
-	"github.com/livepeer/lpms/vidlistener"
-	"github.com/livepeer/lpms/vidplayer"
 	"github.com/livepeer/m3u8"
 
 	joy4rtmp "github.com/livepeer/joy4/format/rtmp"
@@ -67,7 +67,7 @@ func defaultLPMSOpts(opts *LPMSOpts) {
 	}
 }
 
-//New creates a new LPMS server object.  It really just brokers everything to the components.
+// New creates a new LPMS server object.  It really just brokers everything to the components.
 func New(opts *LPMSOpts) *LPMS {
 	defaultLPMSOpts(opts)
 	var rtmpServer *joy4rtmp.Server
@@ -83,7 +83,7 @@ func New(opts *LPMSOpts) *LPMS {
 	return &LPMS{vidPlayer: player, vidListener: listener, workDir: opts.WorkDir, rtmpAddr: opts.RtmpAddr, httpAddr: httpAddr}
 }
 
-//Start starts the rtmp and http servers, and initializes ffmpeg
+// Start starts the rtmp and http servers, and initializes ffmpeg
 func (l *LPMS) Start(ctx context.Context) error {
 	ec := make(chan error, 1)
 	ffmpeg.InitFFmpeg()
@@ -114,7 +114,7 @@ func (l *LPMS) Start(ctx context.Context) error {
 	return nil
 }
 
-//HandleRTMPPublish offload to the video listener.  To understand how it works, look at videoListener.HandleRTMPPublish.
+// HandleRTMPPublish offload to the video listener.  To understand how it works, look at videoListener.HandleRTMPPublish.
 func (l *LPMS) HandleRTMPPublish(
 	makeStreamID func(url *url.URL) (strmID stream.AppData),
 	gotStream func(url *url.URL, rtmpStrm stream.RTMPVideoStream) (err error),
@@ -123,12 +123,12 @@ func (l *LPMS) HandleRTMPPublish(
 	l.vidListener.HandleRTMPPublish(makeStreamID, gotStream, endStream)
 }
 
-//HandleRTMPPlay offload to the video player
+// HandleRTMPPlay offload to the video player
 func (l *LPMS) HandleRTMPPlay(getStream func(url *url.URL) (stream.RTMPVideoStream, error)) error {
 	return l.vidPlayer.HandleRTMPPlay(getStream)
 }
 
-//HandleHLSPlay offload to the video player
+// HandleHLSPlay offload to the video player
 func (l *LPMS) HandleHLSPlay(
 	getMasterPlaylist func(url *url.URL) (*m3u8.MasterPlaylist, error),
 	getMediaPlaylist func(url *url.URL) (*m3u8.MediaPlaylist, error),
@@ -137,7 +137,7 @@ func (l *LPMS) HandleHLSPlay(
 	l.vidPlayer.HandleHLSPlay(getMasterPlaylist, getMediaPlaylist, getSegment)
 }
 
-//SegmentRTMPToHLS takes a rtmp stream and re-packages it into a HLS stream with the specified segmenter options
+// SegmentRTMPToHLS takes a rtmp stream and re-packages it into a HLS stream with the specified segmenter options
 func (l *LPMS) SegmentRTMPToHLS(ctx context.Context, rs stream.RTMPVideoStream, hs stream.HLSVideoStream, segOptions segmenter.SegmenterOptions) error {
 	// set localhost if necessary. Check more problematic addrs? [::] ?
 	rtmpAddr := l.rtmpAddr

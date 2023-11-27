@@ -20,14 +20,14 @@ import (
 
 	"strings"
 
+	"github.com/Video-Miner/vmp-lpms/ffmpeg"
+	"github.com/Video-Miner/vmp-lpms/stream"
+	"github.com/Video-Miner/vmp-lpms/vidplayer"
 	"github.com/golang/glog"
 	"github.com/livepeer/joy4/av"
 	"github.com/livepeer/joy4/av/avutil"
 	"github.com/livepeer/joy4/format"
 	"github.com/livepeer/joy4/format/rtmp"
-	"github.com/livepeer/lpms/ffmpeg"
-	"github.com/livepeer/lpms/stream"
-	"github.com/livepeer/lpms/vidplayer"
 	"github.com/livepeer/m3u8"
 )
 

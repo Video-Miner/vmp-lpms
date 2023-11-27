@@ -14,10 +14,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Video-Miner/vmp-lpms/core"
+	"github.com/Video-Miner/vmp-lpms/segmenter"
+	"github.com/Video-Miner/vmp-lpms/stream"
 	"github.com/golang/glog"
-	"github.com/livepeer/lpms/core"
-	"github.com/livepeer/lpms/segmenter"
-	"github.com/livepeer/lpms/stream"
 	"github.com/livepeer/m3u8"
 )
 

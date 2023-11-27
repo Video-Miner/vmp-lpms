@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/livepeer/lpms/ffmpeg"
+	"github.com/Video-Miner/vmp-lpms/ffmpeg"
 )
 
 func validRenditions() []string {

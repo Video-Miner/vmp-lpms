@@ -10,8 +10,8 @@ import (
 
 	"net/url"
 
+	"github.com/Video-Miner/vmp-lpms/stream"
 	joy4rtmp "github.com/livepeer/joy4/format/rtmp"
-	"github.com/livepeer/lpms/stream"
 	"github.com/livepeer/m3u8"
 )
 

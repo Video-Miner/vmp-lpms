@@ -9,7 +9,7 @@ import (
 	"encoding/csv"
 	"encoding/json"
 	"fmt"
-	"github.com/livepeer/lpms/ffmpeg"
+	"github.com/Video-Miner/vmp-lpms/ffmpeg"
 	"io"
 	"io/ioutil"
 	"os"
