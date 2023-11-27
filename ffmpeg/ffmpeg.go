@@ -698,7 +698,7 @@ func createCOutputParams(input *TranscodeOptionsIn, ps []TranscodeOptions) ([]C.
 		if len(p.VideoEncoder.Name) <= 0 && len(p.VideoEncoder.Opts) <= 0 {
 			p.VideoEncoder.Opts = map[string]string{
 				"forced-idr": "1",
-				"preset":     "slow",
+				"preset":     "fast",
 				"tier":       "high",
 			}
 			if p.Profile.Quality != 0 {
